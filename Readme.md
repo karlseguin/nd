@@ -13,7 +13,7 @@ Install using the "go get" command:
 ### Usage
 In your code use `nd.Now()` instead of `time.Now()`. By default, `nd.Now()` wraps `time.Now()`, so you'll get the same `time.Time` structure which represents the current time.
 
-In tests which require a known time value, use `nd.ForceNow(time time.Time)` or `nd.ForceNowTimestamp(timestmap int64)`. After forcing the time, subsequent calls to `time.Now()` will always return the forced value.
+In tests which require a known time value, use `nd.ForceNow(time time.Time)` or `nd.ForceNowTimestamp(timestmap int64)`. After forcing the time, subsequent calls to `time.Now()` will always return the forced value. The default behavior can be restored by calling `nd.ResetNow()`.
 
 ### Supported Generators
 
