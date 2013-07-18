@@ -8,7 +8,7 @@ However, in languages which expose functions as first class citizens, such as Go
 ### Installation
 Install using the "go get" command:
 
-    go get github.com/viki-org/gond/nd
+    go get github.com/viki-org/ndgo/nd
 
 ### Usage
 In your code use `nd.Now()` instead of `time.Now()`. By default, `nd.Now()` wraps `time.Now()`, so you'll get the same `time.Time` structure which represents the current time.
