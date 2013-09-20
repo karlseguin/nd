@@ -1,7 +1,6 @@
 package nd
 
 import (
-  "fmt"
   "bytes"
   "regexp"
   "testing"
@@ -23,7 +22,6 @@ func TestCanForceAGuidv4(t *testing.T) {
   ForceGuid(expected)
 
   guidBytes := Guidv4()
-  fmt.Println(guidBytes)
   if bytes.Compare(guidBytes, expectedBytes) != 0 {
     t.Errorf("Guid should be %q, got %q", expectedBytes, guidBytes)
   }

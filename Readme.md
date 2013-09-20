@@ -19,3 +19,4 @@ In tests which require a known time value, use `nd.ForceNow(time time.Time)` or 
 
 * `nd.Now()` - The current time
 * `nd.Guidv4()` and `nd.Guidv4String()` - A V4 Guid (either as a []byte or a string)
+* `nd.CryptRand(b []byte) (n, error)` - Fills b with a cryptographically secure rand
