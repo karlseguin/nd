@@ -26,8 +26,10 @@ func Guidv4String() string {
   return fmt.Sprintf("%x-%x-%x-%x-%x", t[0:4], t[4:6], t[6:8], t[8:10], t[10:])
 }
 
-func ForceGuid(guid string) {
+func ForceGuid(guid string) error {
   guid = strings.Replace(guid, "-", "", -1)
-  g, _ := hex.DecodeString(guid)
+  g, err := hex.DecodeString(guid)
+  if err != nil { return err }
   Guidv4 = func() []byte { return g }
+  return nil
 }
