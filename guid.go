@@ -2,6 +2,7 @@ package nd
 
 import (
   "fmt"
+  "errors"
   "strings"
   "crypto/rand"
   "encoding/hex"
@@ -27,6 +28,7 @@ func Guidv4String() string {
 }
 
 func ForceGuid(guid string) error {
+  if len(guid) < 28 { return errors.New("Length of the GUID should be at least 28 hexadecimal characters") }
   guid = strings.Replace(guid, "-", "", -1)
   g, err := hex.DecodeString(guid)
   if err != nil { return err }
