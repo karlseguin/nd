@@ -1,13 +1,16 @@
 package nd
 
 import (
+  mr "math/rand"
   "crypto/rand"
 )
 
 var CryptRand func([]byte) (int, error)
+var IntRand func() int
 
 func init() {
   ResetCryptRand()
+  ResetIntRand()
 }
 
 func ResetCryptRand() {
@@ -19,4 +22,12 @@ func ForceCryptRand(forced []byte) {
     n := copy(b, forced)
     return n, nil
   }
+}
+
+func ResetIntRand() {
+  IntRand = func() int { return mr.Int() }
+}
+
+func ForceIntRand(forced int) {
+  IntRand = func() int { return forced }
 }

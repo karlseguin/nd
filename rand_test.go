@@ -32,6 +32,23 @@ func TestCanResetCryptRand(t *testing.T) {
   assertCryptRandIsRandom(t)
 }
 
+func TestIntRandReturnsRandomIds(t *testing.T) {
+  assertIntRandIsRandom(t)
+}
+
+func TestCanForceAnIntRand(t *testing.T) {
+  ForceIntRand(178)
+  if i := IntRand(); i != 178 {
+    t.Errorf("IntRand should be %d, got %d", 178, i)
+  }
+}
+
+func TestCanResetIntRand(t *testing.T) {
+  ForceIntRand(178)
+  ResetIntRand()
+  assertIntRandIsRandom(t)
+}
+
 func assertCryptRandIsRandom(t *testing.T) {
   seen := make(map[string]bool, 500)
   b := make([]byte, 18)
@@ -39,5 +56,11 @@ func assertCryptRandIsRandom(t *testing.T) {
     CryptRand(b)
     seen[string(b)] = true
   }
+  if len(seen) != 500 { t.Error("Should have seen 500 unique values") }
+}
+
+func assertIntRandIsRandom(t *testing.T) {
+  seen := make(map[int]bool, 500)
+  for i := 0; i < 500; i++ { seen[IntRand()] = true }
   if len(seen) != 500 { t.Error("Should have seen 500 unique values") }
 }
