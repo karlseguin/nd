@@ -39,7 +39,7 @@ func TestIntRandReturnsRandomIds(t *testing.T) {
 func TestCanForceAnIntRand(t *testing.T) {
   ForceIntRand(178)
   if i := IntRand(); i != 178 {
-    t.Errorf("IntRand should be %d, got %d", 178, i)
+    t.Errorf("IntRand should be 178, got %d", i)
   }
 }
 
@@ -49,6 +49,23 @@ func TestCanResetIntRand(t *testing.T) {
   assertIntRandIsRandom(t)
 }
 
+func TestIntnRandReturnsRandomIdsWithInLimits(t *testing.T) {
+  assertIntnRandIsRandomWithinLimits(t)
+}
+
+func TestCanForceAnIntnRand(t *testing.T) {
+  ForceIntnRand(42)
+  if i := IntnRand(10); i != 42 {
+    t.Errorf("IntRand should be 42, got %d", i)
+  }
+}
+
+func TestCanResetIntnRand(t *testing.T) {
+  ForceIntnRand(43)
+  ResetIntnRand()
+  assertIntnRandIsRandomWithinLimits(t)
+}
+
 func assertCryptRandIsRandom(t *testing.T) {
   seen := make(map[string]bool, 500)
   b := make([]byte, 18)
@@ -56,11 +73,23 @@ func assertCryptRandIsRandom(t *testing.T) {
     CryptRand(b)
     seen[string(b)] = true
   }
-  if len(seen) != 500 { t.Error("Should have seen 500 unique values") }
+  if n := len(seen); n != 500 {
+    t.Errorf("Should have seen 500 unique values, got %d", n)
+  }
 }
 
 func assertIntRandIsRandom(t *testing.T) {
   seen := make(map[int]bool, 500)
   for i := 0; i < 500; i++ { seen[IntRand()] = true }
-  if len(seen) != 500 { t.Error("Should have seen 500 unique values") }
+  if n := len(seen); n != 500 {
+    t.Errorf("Should have seen 500 unique values, got %d", n)
+  }
+}
+
+func assertIntnRandIsRandomWithinLimits(t *testing.T) {
+  seen := make(map[int]bool, 5000)
+  for i := 0; i < 5000; i++ { seen[IntnRand(50)] = true }
+  if n := len(seen); n != 50 {
+    t.Errorf("Should have seen 50 unique values, got %d", n)
+  }
 }
