@@ -1,6 +1,7 @@
 package nd
 
 import (
+  "time"
   "crypto/rand"
   mr "math/rand"
 )
@@ -10,6 +11,7 @@ var IntnRand func(int) int
 var CryptRand func([]byte) (int, error)
 
 func init() {
+  mr.Seed(time.Now().UTC().UnixNano())
   ResetIntRand()
   ResetIntnRand()
   ResetCryptRand()
