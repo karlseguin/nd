@@ -66,6 +66,16 @@ func TestCanResetIntnRand(t *testing.T) {
   assertIntnRandIsRandomWithinLimits(t)
 }
 
+func TestCanSeedRandomGeneration(t *testing.T) {
+  Seed(42)
+  if n := IntRand(); n != 3440579354231278675 {
+    t.Errorf("IntRand should return 3440579354231278675 when seeded with 42, got %d", n)
+  }
+  if n := IntnRand(10); n != 7 {
+    t.Errorf("IntnRand should return 7 when seeded with 42, got %d", n)
+  }
+}
+
 func assertCryptRandIsRandom(t *testing.T) {
   seen := make(map[string]bool, 500)
   b := make([]byte, 18)
