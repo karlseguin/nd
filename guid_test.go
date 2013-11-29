@@ -41,7 +41,11 @@ func TestCanResetGuidv4(t *testing.T) {
 func assertGuidv4IsRandom(t *testing.T) {
   seen := make(map[string]bool, 500)
   for i := 0; i < 500; i++ {
-    seen[string(Guidv4())] = true
+    guid := Guidv4String()
+    if guid[14:15] != "4" {
+      t.Error("GUID v4 marker is missing")
+    }
+    seen[guid] = true
   }
   if len(seen) != 500 { t.Error("Should have seen 500 unique guids") }
 }

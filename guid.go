@@ -18,6 +18,7 @@ func ResetGuidv4() {
   Guidv4 = func() []byte {
     t := make([]byte, 16)
     rand.Read(t)
+    t[6] = t[6] & 0xF | 64
     return t
   }
 }
