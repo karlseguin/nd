@@ -1,23 +1,23 @@
 package nd
 
 import (
-  "time"
+	"time"
 )
 
 var Now func() time.Time
 
 func init() {
-  ResetNow()
+	ResetNow()
 }
 
 func ResetNow() {
-  Now = func() time.Time { return time.Now() }
+	Now = func() time.Time { return time.Now() }
 }
 
 func ForceNow(t time.Time) {
-  Now = func() time.Time { return t }
+	Now = func() time.Time { return t }
 }
 
 func ForceNowTimestamp(timestamp int64) {
-  ForceNow(time.Unix(timestamp, 0))
+	ForceNow(time.Unix(timestamp, 0))
 }
