@@ -5,6 +5,9 @@ import (
 )
 
 var Now func() time.Time
+var UTC = func() time.Time {
+	return Now().UTC()
+}
 
 func init() {
 	ResetNow()

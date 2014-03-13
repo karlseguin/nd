@@ -27,6 +27,19 @@ func TestCanForceNowTimestamp(t *testing.T) {
 	}
 }
 
+func TestUTCFollowsNow(t *testing.T) {
+	loc, _ := time.LoadLocation("EST")
+	expected := time.Date(2010, time.December, 11, 24, 1, 2, 0, loc)
+	ForceNowTimestamp(expected.Unix())
+	actual := UTC()
+	if actual.Equal(expected) == false {
+		t.Errorf("Now should equal %q but equals %q", expected, actual)
+	}
+	if actual.Location().String() != "UTC" {
+		t.Errorf("UTC should return a UTC timezone, got %q instead", actual.Location().String())
+	}
+}
+
 func TestCanResetNow(t *testing.T) {
 	ForceNow(time.Date(2010, time.December, 11, 24, 1, 2, 3, time.UTC))
 	ResetNow()
