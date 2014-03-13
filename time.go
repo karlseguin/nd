@@ -20,6 +20,9 @@ func ResetNow() {
 func ForceNow(t time.Time) {
 	Now = func() time.Time { return t }
 }
+func ForceUTC(t time.Time) {
+	ForceNow(t.UTC())
+}
 
 func ForceNowTimestamp(timestamp int64) {
 	ForceNow(time.Unix(timestamp, 0))
