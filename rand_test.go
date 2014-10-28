@@ -1,109 +1,95 @@
 package nd
 
 import (
-	"bytes"
 	"testing"
+	. "github.com/karlseguin/expect"
 )
 
-func TestCryptRandReturnsRandomIds(t *testing.T) {
-	assertCryptRandIsRandom(t)
+type RandTests struct{}
+
+func Test_Rand(t *testing.T) {
+	Expectify(new(RandTests), t)
 }
 
-func TestCanForceACryptRand(t *testing.T) {
+func (r *RandTests) CryptRandReturnsRandomIds() {
+	assertCryptRandIsRandom()
+}
+
+func (r *RandTests) CanForceACryptRand() {
 	expected := []byte{170, 170, 170, 170, 187, 187, 204, 204, 221, 221, 187, 187, 187, 187}
 	ForceCryptRand(expected)
 
 	actual := make([]byte, 18)
 	n, err := CryptRand(actual)
-	if err != nil {
-		t.Errorf("CryptRand returned an error %v", err)
-	}
-	if n != len(expected) {
-		t.Errorf("CryptRand should have copied %d bytes, but got %d", len(expected), n)
-	}
-	if bytes.Compare(actual[0:n], expected) != 0 {
-		t.Errorf("CryptRand should be %q, got %q", expected, actual[0:n])
-	}
+	Expect(err).To.Equal(nil)
+	Expect(n).To.Equal(len(expected))
+	Expect(actual[:n]).To.Equal(expected)
 }
 
-func TestCanResetCryptRand(t *testing.T) {
+func (r *RandTests) CanResetCryptRand() {
 	ForceCryptRand([]byte{170, 170, 170, 170, 187, 187, 204, 204, 221, 221, 187, 187, 187, 187})
 	ResetCryptRand()
-	assertCryptRandIsRandom(t)
+	assertCryptRandIsRandom()
 }
 
-func TestIntRandReturnsRandomIds(t *testing.T) {
-	assertIntRandIsRandom(t)
+func (r *RandTests) IntRandReturnsRandomIds() {
+	assertIntRandIsRandom()
 }
 
-func TestCanForceAnIntRand(t *testing.T) {
+func (r *RandTests) CanForceAnIntRand() {
 	ForceIntRand(178)
-	if i := IntRand(); i != 178 {
-		t.Errorf("IntRand should be 178, got %d", i)
-	}
+	Expect(IntRand()).To.Equal(178)
 }
 
-func TestCanResetIntRand(t *testing.T) {
+func (r *RandTests) CanResetIntRand() {
 	ForceIntRand(178)
 	ResetIntRand()
-	assertIntRandIsRandom(t)
+	assertIntRandIsRandom()
 }
 
-func TestIntnRandReturnsRandomIdsWithInLimits(t *testing.T) {
-	assertIntnRandIsRandomWithinLimits(t)
+func (r *RandTests) IntnRandReturnsRandomIdsWithInLimits() {
+	assertIntnRandIsRandomWithinLimits()
 }
 
-func TestCanForceAnIntnRand(t *testing.T) {
+func (r *RandTests) CanForceAnIntnRand() {
 	ForceIntnRand(42)
-	if i := IntnRand(10); i != 42 {
-		t.Errorf("IntRand should be 42, got %d", i)
-	}
+	Expect(IntnRand(10)).To.Equal(42)
 }
 
-func TestCanResetIntnRand(t *testing.T) {
+func (r *RandTests) CanResetIntnRand() {
 	ForceIntnRand(43)
 	ResetIntnRand()
-	assertIntnRandIsRandomWithinLimits(t)
+	assertIntnRandIsRandomWithinLimits()
 }
 
-func TestCanSeedRandomGeneration(t *testing.T) {
+func (r *RandTests) CanSeedRandomGeneration() {
 	Seed(42)
-	if n := IntRand(); n != 3440579354231278675 {
-		t.Errorf("IntRand should return 3440579354231278675 when seeded with 42, got %d", n)
-	}
-	if n := IntnRand(10); n != 7 {
-		t.Errorf("IntnRand should return 7 when seeded with 42, got %d", n)
-	}
+	Expect(IntRand()).To.Equal(3440579354231278675)
+	Expect(IntnRand(10)).To.Equal(7)
 }
 
-func assertCryptRandIsRandom(t *testing.T) {
+func assertCryptRandIsRandom() {
 	seen := make(map[string]bool, 500)
 	b := make([]byte, 18)
 	for i := 0; i < 500; i++ {
 		CryptRand(b)
 		seen[string(b)] = true
 	}
-	if n := len(seen); n != 500 {
-		t.Errorf("Should have seen 500 unique values, got %d", n)
-	}
+	Expect(len(seen)).To.Equal(500)
 }
 
-func assertIntRandIsRandom(t *testing.T) {
+func assertIntRandIsRandom() {
 	seen := make(map[int]bool, 500)
 	for i := 0; i < 500; i++ {
 		seen[IntRand()] = true
 	}
-	if n := len(seen); n != 500 {
-		t.Errorf("Should have seen 500 unique values, got %d", n)
-	}
+	Expect(len(seen)).To.Equal(500)
 }
 
-func assertIntnRandIsRandomWithinLimits(t *testing.T) {
+func assertIntnRandIsRandomWithinLimits() {
 	seen := make(map[int]bool, 5000)
 	for i := 0; i < 5000; i++ {
 		seen[IntnRand(50)] = true
 	}
-	if n := len(seen); n != 50 {
-		t.Errorf("Should have seen 50 unique values, got %d", n)
-	}
+	Expect(len(seen)).To.Equal(50)
 }

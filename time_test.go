@@ -3,57 +3,50 @@ package nd
 import (
 	"testing"
 	"time"
+	. "github.com/karlseguin/expect"
 )
 
-func TestNowsDefault(t *testing.T) {
-	assertNowIsNow(t)
+type TimeTests struct{}
+
+func Time_Rand(t *testing.T) {
+	Expectify(new(TimeTests), t)
 }
 
-func TestCanForceNow(t *testing.T) {
+func (tt *TimeTests) NowsDefault() {
+	assertNowIsNow()
+}
+
+func (tt *TimeTests) CanForceNow() {
 	expected := time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC)
 	ForceNow(expected)
-	actual := Now()
-	if actual.Equal(expected) == false {
-		t.Errorf("Now should equal %q but equals %q", expected, actual)
-	}
+	Expect(Now()).To.Equal(expected)
 }
 
-func TestCanForceNowTimestamp(t *testing.T) {
+func (tt *TimeTests) CanForceNowTimestamp() {
 	expected := time.Date(2010, time.December, 11, 24, 1, 2, 0, time.UTC)
 	ForceNowTimestamp(expected.Unix())
-	actual := Now()
-	if actual.Equal(expected) == false {
-		t.Errorf("Now should equal %q but equals %q", expected, actual)
-	}
+	Expect(Now()).To.Equal(expected)
 }
 
-func TestUTCFollowsNow(t *testing.T) {
+func (tt *TimeTests) UTCFollowsNow() {
 	loc, _ := time.LoadLocation("EST")
 	expected := time.Date(2010, time.December, 11, 24, 1, 2, 0, loc)
 	ForceNowTimestamp(expected.Unix())
 	actual := UTC()
-	if actual.Equal(expected) == false {
-		t.Errorf("Now should equal %q but equals %q", expected, actual)
-	}
-	if actual.Location().String() != "UTC" {
-		t.Errorf("UTC should return a UTC timezone, got %q instead", actual.Location().String())
-	}
+	Expect(actual).To.Equal(expected)
+	Expect(actual.Location().String()).To.Equal("UTC")
 }
 
-func TestCanResetNow(t *testing.T) {
+func (tt *TimeTests) CanResetNow() {
 	ForceNow(time.Date(2010, time.December, 11, 24, 1, 2, 3, time.UTC))
 	ResetNow()
-	assertNowIsNow(t)
+	assertNowIsNow()
 }
 
-func assertNowIsNow(t *testing.T) {
+func assertNowIsNow() {
 	start := time.Now()
 	actual := Now()
 	end := time.Now()
-	if actual.Before(start) {
-		t.Errorf("time should not be before %q", start)
-	}
-	if actual.After(end) {
-		t.Errorf("time should not be after %q", end)
-	}
+	Expect(actual.Before(start)).To.Equal(false)
+	Expect(actual.After(end)).To.Equal(false)
 }
