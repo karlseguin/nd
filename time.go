@@ -27,3 +27,9 @@ func ForceUTC(t time.Time) {
 func ForceNowTimestamp(timestamp int64) {
 	ForceNow(time.Unix(timestamp, 0))
 }
+
+func LockTime() time.Time {
+	now := time.Now()
+	ForceNow(now)
+	return now
+}
