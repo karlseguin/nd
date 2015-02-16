@@ -23,6 +23,12 @@ func ResetGuidv4() {
 	}
 }
 
+func LockGuid() string {
+	id := Guidv4String()
+	ForceGuid(id)
+	return id
+}
+
 func Guidv4String() string {
 	t := Guidv4()
 	return fmt.Sprintf("%x-%x-%x-%x-%x", t[0:4], t[4:6], t[6:8], t[8:10], t[10:])
