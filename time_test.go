@@ -1,9 +1,9 @@
 package nd
 
 import (
+	. "github.com/karlseguin/expect"
 	"testing"
 	"time"
-	. "github.com/karlseguin/expect"
 )
 
 type TimeTests struct{}

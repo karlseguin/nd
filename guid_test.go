@@ -1,9 +1,9 @@
 package nd
 
 import (
+	. "github.com/karlseguin/expect"
 	"regexp"
 	"testing"
-	. "github.com/karlseguin/expect"
 )
 
 type GuidTests struct{}

@@ -1,8 +1,8 @@
 package nd
 
 import (
-	"testing"
 	. "github.com/karlseguin/expect"
+	"testing"
 )
 
 type RandTests struct{}
