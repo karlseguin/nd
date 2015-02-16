@@ -12,23 +12,23 @@ func Time_Rand(t *testing.T) {
 	Expectify(new(TimeTests), t)
 }
 
-func (tt *TimeTests) NowsDefault() {
+func (_ TimeTests) NowsDefault() {
 	assertNowIsNow()
 }
 
-func (tt *TimeTests) CanForceNow() {
+func (_ TimeTests) CanForceNow() {
 	expected := time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC)
 	ForceNow(expected)
 	Expect(Now()).To.Equal(expected)
 }
 
-func (tt *TimeTests) CanForceNowTimestamp() {
+func (_ TimeTests) CanForceNowTimestamp() {
 	expected := time.Date(2010, time.December, 11, 24, 1, 2, 0, time.UTC)
 	ForceNowTimestamp(expected.Unix())
 	Expect(Now()).To.Equal(expected)
 }
 
-func (tt *TimeTests) UTCFollowsNow() {
+func (_ TimeTests) UTCFollowsNow() {
 	loc, _ := time.LoadLocation("EST")
 	expected := time.Date(2010, time.December, 11, 24, 1, 2, 0, loc)
 	ForceNowTimestamp(expected.Unix())
@@ -37,7 +37,7 @@ func (tt *TimeTests) UTCFollowsNow() {
 	Expect(actual.Location().String()).To.Equal("UTC")
 }
 
-func (tt *TimeTests) CanResetNow() {
+func (_ TimeTests) CanResetNow() {
 	ForceNow(time.Date(2010, time.December, 11, 24, 1, 2, 3, time.UTC))
 	ResetNow()
 	assertNowIsNow()

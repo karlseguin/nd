@@ -11,11 +11,11 @@ func Test_Rand(t *testing.T) {
 	Expectify(new(RandTests), t)
 }
 
-func (r *RandTests) CryptRandReturnsRandomIds() {
+func (_ RandTests) CryptRandReturnsRandomIds() {
 	assertCryptRandIsRandom()
 }
 
-func (r *RandTests) CanForceACryptRand() {
+func (_ RandTests) CanForceACryptRand() {
 	expected := []byte{170, 170, 170, 170, 187, 187, 204, 204, 221, 221, 187, 187, 187, 187}
 	ForceCryptRand(expected)
 
@@ -26,43 +26,43 @@ func (r *RandTests) CanForceACryptRand() {
 	Expect(actual[:n]).To.Equal(expected)
 }
 
-func (r *RandTests) CanResetCryptRand() {
+func (_ RandTests) CanResetCryptRand() {
 	ForceCryptRand([]byte{170, 170, 170, 170, 187, 187, 204, 204, 221, 221, 187, 187, 187, 187})
 	ResetCryptRand()
 	assertCryptRandIsRandom()
 }
 
-func (r *RandTests) IntRandReturnsRandomIds() {
+func (_ RandTests) IntRandReturnsRandomIds() {
 	assertIntRandIsRandom()
 }
 
-func (r *RandTests) CanForceAnIntRand() {
+func (_ RandTests) CanForceAnIntRand() {
 	ForceIntRand(178)
 	Expect(IntRand()).To.Equal(178)
 }
 
-func (r *RandTests) CanResetIntRand() {
+func (_ RandTests) CanResetIntRand() {
 	ForceIntRand(178)
 	ResetIntRand()
 	assertIntRandIsRandom()
 }
 
-func (r *RandTests) IntnRandReturnsRandomIdsWithInLimits() {
+func (_ RandTests) IntnRandReturnsRandomIdsWithInLimits() {
 	assertIntnRandIsRandomWithinLimits()
 }
 
-func (r *RandTests) CanForceAnIntnRand() {
+func (_ RandTests) CanForceAnIntnRand() {
 	ForceIntnRand(42)
 	Expect(IntnRand(10)).To.Equal(42)
 }
 
-func (r *RandTests) CanResetIntnRand() {
+func (_ RandTests) CanResetIntnRand() {
 	ForceIntnRand(43)
 	ResetIntnRand()
 	assertIntnRandIsRandomWithinLimits()
 }
 
-func (r *RandTests) CanSeedRandomGeneration() {
+func (_ RandTests) CanSeedRandomGeneration() {
 	Seed(42)
 	Expect(IntRand()).To.Equal(3440579354231278675)
 	Expect(IntnRand(10)).To.Equal(7)

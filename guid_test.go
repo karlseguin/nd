@@ -12,17 +12,17 @@ func Test_Guid(t *testing.T) {
 	Expectify(new(GuidTests), t)
 }
 
-func (g *GuidTests) Guidv4ReturnsRandomGuids() {
+func (_ GuidTests) Guidv4ReturnsRandomGuids() {
 	assertGuidv4IsRandom()
 }
 
-func (g *GuidTests) Guidv4StringLooksOk() {
+func (_ GuidTests) Guidv4StringLooksOk() {
 	guid := Guidv4String()
 	matched, _ := regexp.Match("[\\da-f]{8}\\-[\\da-f]{4}\\-[\\da-f]{4}\\-[\\da-f]{4}\\-[\\da-f]{8}", []byte(guid))
 	Expect(matched).To.Equal(true)
 }
 
-func (g *GuidTests) CanForceAGuidv4() {
+func (_ GuidTests) CanForceAGuidv4() {
 	expected := "aaaaaaaa-bbbb-cccc-dddd-bbbbbbbb"
 	expectedBytes := []byte{170, 170, 170, 170, 187, 187, 204, 204, 221, 221, 187, 187, 187, 187}
 	ForceGuid(expected)
@@ -31,7 +31,7 @@ func (g *GuidTests) CanForceAGuidv4() {
 	Expect(Guidv4String()).To.Equal("aaaaaaaa-bbbb-cccc-dddd-bbbbbbbb")
 }
 
-func (g *GuidTests) CanResetGuidv4() {
+func (_ GuidTests) CanResetGuidv4() {
 	ForceGuid("aaaaaaaa-bbbb-cccc-dddd-bbbbbbbb")
 	ResetGuidv4()
 	assertGuidv4IsRandom()
