@@ -4,7 +4,6 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"errors"
-	"fmt"
 	"strings"
 )
 
@@ -31,7 +30,17 @@ func LockGuid() string {
 
 func Guidv4String() string {
 	t := Guidv4()
-	return fmt.Sprintf("%x-%x-%x-%x-%x", t[0:4], t[4:6], t[6:8], t[8:10], t[10:])
+	tmp := make([]byte, 36)
+	hex.Encode(tmp[:8], t[:4])
+	tmp[8] = '-'
+	hex.Encode(tmp[9:], t[4:6])
+	tmp[13] = '-'
+	hex.Encode(tmp[14:], t[6:8])
+	tmp[18] = '-'
+	hex.Encode(tmp[19:], t[8:10])
+	tmp[23] = '-'
+	hex.Encode(tmp[24:], t[10:])
+	return string(tmp)
 }
 
 func ForceGuid(guid string) error {

@@ -18,21 +18,21 @@ func (_ GuidTests) Guidv4ReturnsRandomGuids() {
 
 func (_ GuidTests) Guidv4StringLooksOk() {
 	guid := Guidv4String()
-	matched, _ := regexp.Match("[\\da-f]{8}\\-[\\da-f]{4}\\-[\\da-f]{4}\\-[\\da-f]{4}\\-[\\da-f]{8}", []byte(guid))
+	matched, _ := regexp.Match("[\\da-f]{8}\\-[\\da-f]{4}\\-[\\da-f]{4}\\-[\\da-f]{4}\\-[\\da-f]{12}", []byte(guid))
 	Expect(matched).To.Equal(true)
 }
 
 func (_ GuidTests) CanForceAGuidv4() {
-	expected := "aaaaaaaa-bbbb-cccc-dddd-bbbbbbbb"
-	expectedBytes := []byte{170, 170, 170, 170, 187, 187, 204, 204, 221, 221, 187, 187, 187, 187}
+	expected := "aaaaaaaa-bbbb-cccc-dddd-bbbbbbbbbbbb"
+	expectedBytes := []byte{170, 170, 170, 170, 187, 187, 204, 204, 221, 221, 187, 187, 187, 187, 187, 187}
 	ForceGuid(expected)
 
 	Expect(Guidv4()).To.Equal(expectedBytes)
-	Expect(Guidv4String()).To.Equal("aaaaaaaa-bbbb-cccc-dddd-bbbbbbbb")
+	Expect(Guidv4String()).To.Equal("aaaaaaaa-bbbb-cccc-dddd-bbbbbbbbbbbb")
 }
 
 func (_ GuidTests) CanResetGuidv4() {
-	ForceGuid("aaaaaaaa-bbbb-cccc-dddd-bbbbbbbb")
+	ForceGuid("aaaaaaaa-bbbb-cccc-dddd-bbbbbbbbbbbb")
 	ResetGuidv4()
 	assertGuidv4IsRandom()
 }
